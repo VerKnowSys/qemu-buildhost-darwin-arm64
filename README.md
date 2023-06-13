@@ -20,6 +20,9 @@ Installation of all the software here requires *NO* root access.
 s i Qemu-m1
 ```
 
+Alternatively for macOS 12.6.x, just download the build directly from [VerKnowSys HQ](https://software.verknowsys.com/binary/Darwin-12.6-arm64/Qemu-8.0.2-Darwin-12.6-arm64.txz). By design, it should be self-contained but may also need a valid (existing) runtime path, so it's best to unpack it to /Users/Shared/Software/Qemu-m1/
+
+
 The build contains required entitlements (to allow access to the Apple Hypervisor Framework)
 for all the qemu-system* binaries.
 
