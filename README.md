@@ -85,6 +85,11 @@ cat <<EOF | sudo tee /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridg
                 <true />
                 <key>UserName</key>
                 <string>root</string>
+                <key>KeepAlive</key>
+                <dict>
+                        <key>SuccessfulExit</key>
+                        <false/>
+                </dict>
         </dict>
 </plist>
 EOF
@@ -94,6 +99,8 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/io.github.lima-vm.socket_
 sudo launchctl enable system/io.github.lima-vm.socket_vmnet.bridged.en0
 sudo launchctl kickstart -kp system/io.github.lima-vm.socket_vmnet.bridged.en0
 
+# make sure it autostarts after crash
+sudo launchctl load -w /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridged.en0.plist
 ```
 
 Note, that "by design", vmnet operations on Darwin require root-level access, (for the socket_vmnet launch daemon).
