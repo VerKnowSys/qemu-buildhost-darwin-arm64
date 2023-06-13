@@ -7,6 +7,8 @@ that will contain all the necessary info and scripts on how to:
 
 * Use bridged networking by default (which is not supported by Qemu 6.1 while HVF is not supported on the latest Qemu 8+)
 
+* Allows using more than 4G RAM for a guest machine.
+
 
 # Qemu installation
 
