@@ -110,7 +110,7 @@ cat <<EOF | sudo tee /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridg
 </plist>
 EOF
 
-# start the daemons
+# start the daemon
 sudo launchctl bootstrap system /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridged.en0.plist
 sudo launchctl enable system/io.github.lima-vm.socket_vmnet.bridged.en0
 sudo launchctl kickstart -kp system/io.github.lima-vm.socket_vmnet.bridged.en0
