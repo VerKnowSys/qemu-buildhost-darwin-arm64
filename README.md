@@ -23,8 +23,24 @@ s i Qemu-m1
 Alternatively for macOS 12.6.x, just download the build directly from [VerKnowSys HQ](https://software.verknowsys.com/binary/Darwin-12.6-arm64/Qemu-m1-m1-Darwin-12.6-arm64.txz). By design, it should be self-contained but may also need a valid (existing) runtime path, so it's best to unpack it to /Users/Shared/Software/Qemu-m1/
 
 
-The build contains required entitlements (to allow access to the Apple Hypervisor Framework)
-for all the qemu-system* binaries.
+The software bundle contains required entitlements (to allow access to the Apple Hypervisor Framework) for all the qemu-system* binaries, but only when it's installed using Sofin. If you installed the archive manually you will need to set entitles manually:
+
+```zsh
+    cat > /tmp/entitlements.xml <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>com.apple.security.hypervisor</key>
+    <true/>
+</dict>
+</plist>
+EOF
+    codesign -s - --entitlements /tmp/entitlements.xml --force /Users/Shared/Software/Qemu-m1/bin/qemu-system-aarch64-unsigned
+    codesign -s - --entitlements /tmp/entitlements.xml --force /Users/Shared/Software/Qemu-m1/bin/qemu-system-arm-unsigned
+    codesign -s - --entitlements /tmp/entitlements.xml --force /Users/Shared/Software/Qemu-m1/bin/qemu-system-x86_64-unsigned
+    rm -f /tmp/entitlements.xml
+```
 
 
 # Enable Qemu bridging via the vmnet trick
