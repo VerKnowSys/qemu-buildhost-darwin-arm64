@@ -120,3 +120,23 @@ sudo launchctl load -w /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bri
 ```
 
 Note, that "by design", vmnet operations on Darwin require root-level access, (for the socket_vmnet launch daemon).
+
+
+# How to start it?
+
+First, you will need to fetch a disk image.
+
+I use the [ROCKPro64](https://www.pine64.org/rockpro64/) boards from Pine64, so my Qemu disk image is from [Official FreeBSD Site](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-arm64-aarch64-ROCKPRO64.img.xz). After `unxz FreeBSD-13.2-RELEASE-arm64-aarch64-ROCKPRO64.img.xz` you get the raw disk image, so you may want to convert it to Qemu's "QCow2" format, using the `qemu-img convert …`. Finally, rename the image file to "freebsd13.qcow2", (or modify the "start.sh" script to use a different disk file or format of your choice).
+
+Start the VM:
+
+```zsh
+./start.sh
+```
+
+Enjoy! :)
+
+
+# License
+
+MIT, BSD, IDGAF
