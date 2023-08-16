@@ -11,12 +11,12 @@ printf "\e]2;%b\a" \
     "Qemu-6.1-hvf-fBSD-13.2-arm64"
 
 /opt/socket_vmnet/bin/socket_vmnet_client "${_bridge_socket}" \
-    /Users/Shared/Software/Qemu-m1/bin/qemu-system-aarch64-unsigned \
+    /Users/Shared/Software/Qemu-m1/bin/qemu-system-aarch64 \
     -M virt,accel=hvf,highmem=off \
     -m "$(( ${_memory} * 1024 ))" \
     -smp cores="${_cores}" \
     -cpu cortex-a72 \
-    -drive file="edk2-aarch64-code.fd,if=pflash,format=raw,readonly=on" \
+    -drive file="/Users/Shared/Software/Qemu-m1/share/qemu/edk2-aarch64-code.fd,if=pflash,format=raw,readonly=on" \
     -drive file="${_hard_drive_image}" \
     -nographic \
     -device "virtio-net-pci,netdev=net0,mac=de:ad:be:ef:00:${_machine_id}" \
