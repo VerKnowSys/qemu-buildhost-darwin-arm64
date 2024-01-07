@@ -3,7 +3,7 @@
 set -e
 
 _format="qcow2"
-_disk="freebsd13-arm64.${_format}"
+_disk="freebsd14-arm64.${_format}"
 
 echo "Reclaiming disk space by converting the disk image: ${_disk}"
 qemu-img \
