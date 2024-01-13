@@ -8,6 +8,7 @@ _disk="freebsd14-arm64.${_format}"
 echo "Reclaiming disk space by converting the disk image: ${_disk}"
 qemu-img \
     convert \
+    -p \
     -c \
     -O ${_format} \
     "${_disk}" \
