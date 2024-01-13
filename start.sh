@@ -21,7 +21,7 @@ printf "\e]2;%b\a" \
     -smp cores="${_cores}" \
     -cpu cortex-a72 \
     -bios "u-boot.bin" \
-    -drive file="${_hard_drive_image}" \
+    -drive file="${_hard_drive_image}",discard=unmap \
     -nographic \
     -device "virtio-net-pci,netdev=net0,mac=de:ad:be:ef:00:${_machine_id}" \
     -netdev "socket,id=net0,fd=3" \
