@@ -12,16 +12,18 @@ _bridge_socket="/var/run/socket_vmnet.bridged.en0"
 
 # set the terminal title
 printf "\e]2;%b\a" \
-    "Qemu-6.1-hvf-fBSD-14.0-arm64"
+    "Qemu-6.1-hvf-fBSD-14.1-arm64"
 
 /opt/socket_vmnet/bin/socket_vmnet_client "${_bridge_socket}" \
     /Users/Shared/Software/Qemu-m1/bin/qemu-system-aarch64 \
-    -M virt,accel=hvf,highmem=off \
+    -M virt,accel=hvf,highmem=off,secure=off,virtualization=off \
+    -overcommit cpu-pm=on \
     -m "$(( ${_memory} * 1024 ))" \
     -smp cores="${_cores}" \
     -cpu cortex-a72 \
     -bios "u-boot.bin" \
-    -drive file="${_hard_drive_image}",discard=unmap \
+    -drive if=none,file="${_hard_drive_image}",id=maind,discard=unmap \
+    -device nvme,drive=maind,serial=foo \
     -nographic \
     -device "virtio-net-pci,netdev=net0,mac=de:ad:be:ef:00:${_machine_id}" \
     -netdev "socket,id=net0,fd=3" \
