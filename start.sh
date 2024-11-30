@@ -12,7 +12,7 @@ _bridge_socket="/var/run/socket_vmnet.bridged.en0"
 
 # set the terminal title
 printf "\e]2;%b\a" \
-    "Qemu-6.1-hvf-fBSD-14.1-arm64"
+    "Qemu-6.1-hvf-fBSD-14.2-arm64"
 
 /opt/socket_vmnet/bin/socket_vmnet_client "${_bridge_socket}" \
     /Users/Shared/Software/Qemu-m1/bin/qemu-system-aarch64 \
