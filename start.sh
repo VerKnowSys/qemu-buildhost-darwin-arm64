@@ -2,7 +2,7 @@
 
 # _disk_name="/dev/rdisk4"
 # _hard_drive_image="${_disk_name},format=raw"
-_disk_name="freebsd14-arm64.qcow2"
+_disk_name="freebsd15-arm64.qcow2"
 _hard_drive_image="${_disk_name},format=qcow2"
 
 _machine_id="05" # the ID of the machine - for multiple VMs running at once
@@ -12,7 +12,7 @@ _bridge_socket="/var/run/socket_vmnet.bridged.en0"
 
 # set the terminal title
 printf "\e]2;%b\a" \
-    "Qemu-6.1-hvf-fBSD-14.2-arm64"
+    "Qemu-6.1-hvf-fBSD-15-arm64"
 
 /opt/socket_vmnet/bin/socket_vmnet_client "${_bridge_socket}" \
     /Users/Shared/Software/Qemu-m1/bin/qemu-system-aarch64 \
@@ -22,7 +22,7 @@ printf "\e]2;%b\a" \
     -smp cores="${_cores}" \
     -cpu cortex-a72 \
     -bios "u-boot.bin" \
-    -drive if=none,file="${_hard_drive_image}",id=maind,discard=unmap \
+    -drive if=none,file="${_hard_drive_image}",id=maind,discard='unmap' \
     -device nvme,drive=maind,serial=foo \
     -nographic \
     -device "virtio-net-pci,netdev=net0,mac=de:ad:be:ef:00:${_machine_id}" \
