@@ -8,7 +8,7 @@ _hard_drive_image="${_disk_name},format=qcow2"
 _machine_id="05" # the ID of the machine - for multiple VMs running at once
 _memory="12" # GB RAM for the VM
 _cores="4" # performance cores on M2 Pro - 2
-_bridge_socket="/var/run/socket_vmnet.bridged.en0"
+_bridge_socket="/var/run/socket_vmnet.shared"
 
 # set the terminal title
 printf "\e]2;%b\a" \
@@ -26,5 +26,5 @@ printf "\e]2;%b\a" \
     -device nvme,drive=maind,serial=foo \
     -nographic \
     -device "virtio-net-pci,netdev=net0,mac=de:ad:be:ef:00:${_machine_id}" \
-    -netdev "socket,id=net0,fd=3" \
+    -netdev socket,id=net0,fd=3 \
     -pidfile freebsd.pid

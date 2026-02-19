@@ -72,11 +72,11 @@ sudo xattr -d com.apple.quarantine /opt/socket_vmnet/bin/socket_vmnet_client
 # Set sudo exception for our daemon
 cat <<EOF | sudo tee /etc/sudoers.d/socket_vmnet
 # Entries for bridged mode (en0)
-%staff ALL=(root:root) NOPASSWD:NOSETENV: /opt/socket_vmnet/bin/socket_vmnet --vmnet-mode=bridged --vmnet-interface=en0 /var/run/socket_vmnet.bridged.en0
+%staff ALL=(root:root) NOPASSWD:NOSETENV: /opt/socket_vmnet/bin/socket_vmnet --vmnet-mode=shared --vmnet-interface=en0 /var/run/socket_vmnet.shared
 EOF
 
 # Setup our bridge launch daemon
-cat <<EOF | sudo tee /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridged.en0.plist
+cat <<EOF | sudo tee /Library/LaunchDaemons/com.verknowsys.socket_vmnet.shared.plist
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!-- make install: no by default -->
@@ -89,14 +89,14 @@ cat <<EOF | sudo tee /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridg
                 <key>ProgramArguments</key>
                 <array>
                         <string>/opt/socket_vmnet/bin/socket_vmnet</string>
-                        <string>--vmnet-mode=bridged</string>
+                        <string>--vmnet-mode=shared</string>
                         <string>--vmnet-interface=en0</string>
-                        <string>/var/run/socket_vmnet.bridged.en0</string>
+                        <string>/var/run/socket_vmnet.shared</string>
                 </array>
                 <key>StandardErrorPath</key>
-                <string>/var/log/socket_vmnet/bridged.en0.stderr</string>
+                <string>/var/log/socket_vmnet/shared.stderr.log</string>
                 <key>StandardOutPath</key>
-                <string>/var/log/socket_vmnet/bridged.en0.stdout</string>
+                <string>/var/log/socket_vmnet/shared.stdout.log</string>
                 <key>RunAtLoad</key>
                 <true />
                 <key>UserName</key>
@@ -111,12 +111,7 @@ cat <<EOF | sudo tee /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridg
 EOF
 
 # start the daemon
-sudo launchctl bootstrap system /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridged.en0.plist
-sudo launchctl enable system/io.github.lima-vm.socket_vmnet.bridged.en0
-sudo launchctl kickstart -kp system/io.github.lima-vm.socket_vmnet.bridged.en0
-
-# make sure it autostarts after crash
-sudo launchctl load -w /Library/LaunchDaemons/io.github.lima-vm.socket_vmnet.bridged.en0.plist
+sudo launchctl load -w /Library/LaunchDaemons/com.verknowsys.socket_vmnet.shared.plist
 ```
 
 Note, that "by design", vmnet operations on Darwin require root-level access, (for the socket_vmnet launch daemon).
