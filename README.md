@@ -83,7 +83,7 @@ cat <<EOF | sudo tee /Library/LaunchDaemons/com.verknowsys.socket_vmnet.shared.p
 <plist version="1.0">
         <dict>
                 <key>Label</key>
-                <string>io.github.lima-vm.socket_vmnet.bridged.en0</string>
+                <string>com.verknowsys.socket_vmnet.shared</string>
                 <key>Program</key>
                 <string>/opt/socket_vmnet/bin/socket_vmnet</string>
                 <key>ProgramArguments</key>
@@ -91,6 +91,7 @@ cat <<EOF | sudo tee /Library/LaunchDaemons/com.verknowsys.socket_vmnet.shared.p
                         <string>/opt/socket_vmnet/bin/socket_vmnet</string>
                         <string>--vmnet-mode=shared</string>
                         <string>--vmnet-interface=en0</string>
+                        <string>--vmnet-gateway=192.168.2.1</string>
                         <string>/var/run/socket_vmnet.shared</string>
                 </array>
                 <key>StandardErrorPath</key>
@@ -112,6 +113,9 @@ EOF
 
 # start the daemon
 sudo launchctl load -w /Library/LaunchDaemons/com.verknowsys.socket_vmnet.shared.plist
+
+# disable the daemon
+sudo launchctl unload -w /Library/LaunchDaemons/com.verknowsys.socket_vmnet.shared.plist
 ```
 
 Note, that "by design", vmnet operations on Darwin require root-level access, (for the socket_vmnet launch daemon).
@@ -121,7 +125,7 @@ Note, that "by design", vmnet operations on Darwin require root-level access, (f
 
 First, you will need to fetch a disk image.
 
-I use the [ROCKPro64](https://www.pine64.org/rockpro64/) boards from Pine64, so my Qemu disk image is from [Official FreeBSD Site](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-arm64-aarch64-ROCKPRO64.img.xz). After `unxz FreeBSD-13.2-RELEASE-arm64-aarch64-ROCKPRO64.img.xz` you get the raw disk image, so you may want to convert it to Qemu's "QCow2" format, using the `qemu-img convert …`. Finally, rename the image file to "freebsd13.qcow2", (or modify the "start.sh" script to use a different disk file or format of your choice).
+I use the [ROCKPro64](https://www.pine64.org/rockpro64/) boards from Pine64, so my Qemu disk image is from [Official FreeBSD Site](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/FreeBSD-15.0-RELEASE-arm64-aarch64-ROCKPRO64.img.xz). After `unxz FreeBSD-15.0-RELEASE-arm64-aarch64-ROCKPRO64.img.xz` you get the raw disk image, so you may want to convert it to Qemu's "QCow2" format, using the `qemu-img convert …`. Finally, rename the image file to "freebsd15.qcow2", (or modify the "start.sh" script to use a different disk file or format of your choice).
 
 Start the VM:
 
